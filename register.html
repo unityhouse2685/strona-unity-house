@@ -5,7 +5,10 @@
     <title>Rejestracja – Unity House</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Twój system -->
     <script src="system.js" defer></script>
 
     <link rel="stylesheet" href="style.css">
@@ -18,20 +21,24 @@
 
     <form id="registerForm" autocomplete="off">
 
+        <!-- HONEYPOT – Chrome wypełni to, a nie Twoje pola -->
+        <input type="text" style="display:none" autocomplete="username">
+        <input type="password" style="display:none" autocomplete="current-password">
+
         <label for="loginInput">Login</label>
-        <input type="text" id="loginInput" autocomplete="off" required>
+        <input type="text" id="loginInput" name="user_login_98342" autocomplete="new-password" required>
 
         <label for="nameInput">Imię i nazwisko</label>
-        <input type="text" id="nameInput" autocomplete="off" required>
+        <input type="text" id="nameInput" name="user_name_12993" autocomplete="off" required>
 
         <label for="addressInput">Adres zamieszkania</label>
-        <input type="text" id="addressInput" autocomplete="off" required>
+        <input type="text" id="addressInput" name="user_address_55321" autocomplete="off" required>
 
         <label for="phoneInput">Telefon</label>
-        <input type="text" id="phoneInput" autocomplete="off" required>
+        <input type="text" id="phoneInput" name="user_phone_77123" autocomplete="off" required>
 
         <label for="passwordInput">Hasło</label>
-        <input type="password" id="passwordInput" autocomplete="new-password" required>
+        <input type="password" id="passwordInput" name="user_pass_44211" autocomplete="new-password" required>
 
         <button type="submit" class="btn gold big" style="width:100%;">Utwórz konto</button>
     </form>
