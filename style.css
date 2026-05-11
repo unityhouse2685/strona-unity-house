@@ -1,0 +1,100 @@
+/* === Styl główny strony === */
+body {
+    background-color: #0f0f0f;
+    color: #e0e0e0;
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* === Nagłówek === */
+header {
+    background-color: #1a1a1a;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: 600;
+    border-bottom: 1px solid #333;
+}
+
+/* === Główna sekcja === */
+main {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* === Formularz zgłoszenia === */
+.new-ticket {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.new-ticket h2 {
+    margin-top: 0;
+    color: #fff;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+/* === Przycisk === */
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+/* === Lista zgłoszeń === */
+.tickets-list {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.ticket-card {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 4px solid #0078d4;
+}
+
+.ticket-card h3 {
+    margin: 0 0 5px 0;
+    color: #fff;
+}
+
+.ticket-card p {
+    margin: 4px 0;
+    color: #ccc;
+}
+
+/* === Kolory statusów === */
+.status-new { color: #00b7ff; }
+.status-progress { color: #ffb300; }
+.status-closed { color: #00c853; }

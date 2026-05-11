@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel mieszkańca – Unity House</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #e0e0e0;
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: 600;
+            border-bottom: 1px solid #333;
+        }
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .new-ticket {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .new-ticket h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2a2a2a;
+            color: #fff;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #0078d4;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover {
+            background-color: #005fa3;
+        }
+        .tickets-list {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .ticket-card {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0078d4;
+        }
+        .ticket-card h3 {
+            margin: 0 0 5px 0;
+            color: #fff;
+        }
+        .ticket-card p {
+            margin: 4px 0;
+            color: #ccc;
+        }
+        .status-new { color: #00b7ff; }
+        .status-progress { color: #ffb300; }
+        .status-closed { color: #00c853; }
+    </style>
+</head>
+<body>
+    <header>🧱 Panel mieszkańca – Unity House Gostyń</header>
+    <main>
+        <section class="new-ticket">
+            <h2>Zgłoś nową awarię</h2>
+            <form>
+                <label for="title">Tytuł zgłoszenia</label>
+                <input type="text" id="title" placeholder="np. Awaria światła na klatce">
+
+                <label for="desc">Opis</label>
+                <textarea id="desc" rows="4" placeholder="Opisz problem..."></textarea>
+
+                <label for="category">Kategoria</label>
+                <select id="category">
+                    <option value="Elektryka">Elektryka</option>
+                    <option value="Hydraulika">Hydraulika</option>
+                    <option value="Sprzątanie">Sprzątanie</option>
+                    <option value="Inne">Inne</option>
+                </select>
+
+                <label for="priority">Priorytet</label>
+                <select id="priority">
+                    <option value="Niski">Niski</option>
+                    <option value="Średni">Średni</option>
+                    <option value="Wysoki">Wysoki</option>
+                </select>
+
+                <button type="submit">Zapisz zgłoszenie</button>
+            </form>
+        </section>
+
+        <section class="tickets-list">
+            <h2>Twoje zgłoszenia</h2>
+            <div class="ticket-card">Ładowanie danych...</div>
+        </section>
+    </main>
+
+    <script type="module" src="supabase.js"></script>
+    <script type="module" src="resident.js"></script>
+</body>
+</html>

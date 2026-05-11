@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel administratora</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <div id="adminPanel" class="container">
+
+        <h1>Panel administratora</h1>
+
+        <!-- DASHBOARD -->
+        <h2>Dashboard zgłoszeń</h2>
+        <div id="adminDashboard" class="dashboard-box"></div>
+        <hr>
+
+        <!-- NOWE REJESTRACJE -->
+        <h2>Nowe rejestracje mieszkańców</h2>
+        <div id="pendingUsers" class="pending-users-box"></div>
+        <hr>
+
+        <!-- ZGŁOSZENIA -->
+        <h2>Zgłoszenia mieszkańców</h2>
+        <div id="adminTickets" class="tickets-box"></div>
+        <hr>
+
+        <!-- OGŁOSZENIA -->
+        <h2>Ogłoszenia</h2>
+
+        <div id="adminAnnouncements" class="announcements-box">
+
+            <h3>Dodaj ogłoszenie</h3>
+
+            <form id="announcementForm">
+
+                <label>Tytuł ogłoszenia</label>
+                <input type="text" id="annTitle" required>
+
+                <label>Treść ogłoszenia</label>
+                <textarea id="annContent" required></textarea>
+
+                <label>Adresaci</label>
+                <select id="annTargetMode">
+                    <option value="all">Wszyscy mieszkańcy</option>
+                    <option value="selected">Wybrani mieszkańcy</option>
+                </select>
+
+                <div id="annUsersSelect" style="display:none; margin-top:10px;"></div>
+
+                <button type="submit">Dodaj ogłoszenie</button>
+            </form>
+
+            <hr>
+
+            <h3>Lista ogłoszeń</h3>
+            <div id="adminAnnouncementsList"></div>
+
+        </div>
+
+        <hr>
+
+        <!-- REGULAMINY -->
+        <h2>Regulaminy</h2>
+
+        <div id="adminRegulations" class="regulations-box">
+
+            <h3>Dodaj regulamin</h3>
+
+            <form id="regulationForm">
+
+                <label>Tytuł regulaminu</label>
+                <input type="text" id="regTitle" required>
+
+                <label>Wspólnota</label>
+                <select id="regCommunity" required></select>
+
+                <label>Plik (PDF / JPG / PNG)</label>
+                <input type="file" id="regFile" accept=".pdf,.jpg,.jpeg,.png" required>
+
+                <button type="submit">Dodaj regulamin</button>
+            </form>
+
+            <hr>
+
+            <h3>Lista regulaminów</h3>
+            <div id="adminRegulationsList"></div>
+
+        </div>
+
+        <br><br>
+        <a href="login.html" class="logout-btn">Wyloguj</a>
+
+    </div>
+
+    <script src="system.js"></script>
+</body>
+</html>
