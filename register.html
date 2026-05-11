@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja mieszkańca</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Rejestracja mieszkańca</h1>
+
+        <form id="registerForm">
+
+            <label>Imię i nazwisko</label>
+            <input type="text" id="fullname" required>
+
+            <label>Adres zamieszkania</label>
+            <input type="text" id="address" required>
+
+            <label>Adres e‑mail</label>
+            <input type="email" id="email" required>
+
+            <label>Telefon</label>
+            <input type="text" id="phone" required>
+
+            <label>Wspólnota mieszkaniowa</label>
+            <select id="wspolnota" required></select>
+
+            <label>Hasło</label>
+            <input type="password" id="password" required>
+
+            <button type="submit">Zarejestruj</button>
+        </form>
+
+        <p>Masz już konto? <a href="login.html">Zaloguj się</a></p>
+    </div>
+
+    <script src="system.js"></script>
+</body>
+</html>
