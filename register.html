@@ -25,20 +25,27 @@
         <input type="text" style="display:none" autocomplete="username">
         <input type="password" style="display:none" autocomplete="current-password">
 
-        <label for="loginInput">Login</label>
-        <input type="text" id="loginInput" name="user_login_98342" autocomplete="new-password" required>
-
         <label for="nameInput">Imię i nazwisko</label>
         <input type="text" id="nameInput" name="user_name_12993" autocomplete="off" required>
 
         <label for="addressInput">Adres zamieszkania</label>
         <input type="text" id="addressInput" name="user_address_55321" autocomplete="off" required>
 
-        <label for="phoneInput">Telefon</label>
-        <input type="text" id="phoneInput" name="user_phone_77123" autocomplete="off" required>
+        <label for="emailInput">Email (login)</label>
+        <input type="email" id="emailInput" name="user_email_99812" autocomplete="new-password" required>
 
         <label for="passwordInput">Hasło</label>
         <input type="password" id="passwordInput" name="user_pass_44211" autocomplete="new-password" required>
+
+        <!-- Pasek siły hasła -->
+        <div id="passwordStrength" style="height:6px; width:100%; background:#333; border-radius:4px; margin-top:6px;">
+            <div id="strengthBar" style="height:100%; width:0%; background:red; border-radius:4px;"></div>
+        </div>
+
+        <label for="communitySelect">Wspólnota mieszkaniowa</label>
+        <select id="communitySelect" required>
+            <option value="">Wybierz wspólnotę…</option>
+        </select>
 
         <button type="submit" class="btn gold big" style="width:100%;">Utwórz konto</button>
     </form>
@@ -55,16 +62,64 @@
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
+/* ============================================================
+   ŁADOWANIE LISTY WSPÓLNOT
+============================================================ */
+document.addEventListener("DOMContentLoaded", async () => {
+    const select = document.getElementById("communitySelect");
+
+    const { data, error } = await client
+        .from("communities")
+        .select("*")
+        .order("name", { ascending: true });
+
+    if (error) {
+        console.error(error);
+        alert("Błąd ładowania listy wspólnot.");
+        return;
+    }
+
+    data.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = c.name;
+        select.appendChild(opt);
+    });
+});
+
+/* ============================================================
+   PASEK SIŁY HASŁA
+============================================================ */
+document.getElementById("passwordInput").addEventListener("input", () => {
+    const pass = document.getElementById("passwordInput").value;
+    const bar = document.getElementById("strengthBar");
+
+    let strength = 0;
+    if (pass.length > 6) strength += 25;
+    if (/[A-Z]/.test(pass)) strength += 25;
+    if (/[0-9]/.test(pass)) strength += 25;
+    if (/[^A-Za-z0-9]/.test(pass)) strength += 25;
+
+    bar.style.width = strength + "%";
+
+    if (strength < 50) bar.style.background = "red";
+    else if (strength < 75) bar.style.background = "orange";
+    else bar.style.background = "green";
+});
+
+/* ============================================================
+   REJESTRACJA
+============================================================ */
 document.getElementById("registerForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const login = document.getElementById("loginInput").value.trim();
     const name = document.getElementById("nameInput").value.trim();
     const address = document.getElementById("addressInput").value.trim();
-    const phone = document.getElementById("phoneInput").value.trim();
+    const email = document.getElementById("emailInput").value.trim();
     const password = document.getElementById("passwordInput").value.trim();
+    const community = document.getElementById("communitySelect").value;
 
-    if (!login || !name || !address || !phone || !password) {
+    if (!name || !address || !email || !password || !community) {
         alert("Uzupełnij wszystkie pola.");
         return;
     }
@@ -72,11 +127,11 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     const { error } = await client
         .from("users")
         .insert({
-            login,
             name,
             address,
-            phone,
-            password
+            login: email,
+            password,
+            community_id: community
         });
 
     if (error) {
