@@ -218,21 +218,18 @@ function initResidentTickets(user) {
             attachments.push({ name: f.name, type: f.type, size: f.size });
         }
 
-        const tickets = getTickets();
-        tickets.push({
-            id: Date.now(),
-            userId: user.id,
-            wspolnota: user.wspolnota,
-            title: ticketTitle.value.trim(),
-            desc: ticketDesc.value.trim(),
-            category: ticketCategory.value,
-            priority: ticketPriority.value,
-            attachments,
-            status: "Nowe",
-            createdAt: new Date().toISOString()
-        });
+      await supabase.from("tickets").insert({
+    user_id: user.login,          // ← identyfikator właściciela zgłoszenia
+    wspolnota: user.wspolnota,
+    title: ticketTitle.value.trim(),
+    desc: ticketDesc.value.trim(),
+    category: ticketCategory.value,
+    priority: ticketPriority.value,
+    attachments: JSON.stringify(attachments),
+    status: "Nowe",
+    created_at: new Date().toISOString()
+});
 
-        saveTickets(tickets);
         ticketForm.reset();
         renderResidentTicketsList(user);
     });
