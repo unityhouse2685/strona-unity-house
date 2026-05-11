@@ -2,27 +2,61 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Logowanie</title>
-    <link rel="stylesheet" href="login.css">
+    <title>Logowanie – Unity House</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Supabase (musi być pierwsze!) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Twój system -->
+    <script src="system.js" defer></script>
+
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-    <div class="container">
-        <h1>Logowanie</h1>
+<body class="login-body">
 
-        <form id="loginForm">
-            <label>Adres e‑mail</label>
-            <input type="email" id="loginEmail" required>
+<div class="login-container">
+    <h2 class="login-title">Panel logowania</h2>
 
-            <label>Hasło</label>
-            <input type="password" id="loginPassword" required>
+    <form id="loginForm">
+        <label>Login</label>
+        <input type="text" id="loginInput" required>
 
-            <button type="submit">Zaloguj</button>
-        </form>
+        <label>Hasło</label>
+        <input type="password" id="passwordInput" required>
 
-        <p>Nie masz konta? <a href="register.html">Zarejestruj się</a></p>
-    </div>
+        <button class="btn gold big" style="width:100%;">Zaloguj się</button>
+    </form>
 
-    <script src="system.js"></script>
+    <p class="login-footer">
+        © <span id="year"></span> Unity House Gostyń
+    </p>
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const loginValue = loginInput.value.trim();
+    const passwordValue = passwordInput.value.trim();
+
+    const result = await login(loginValue, passwordValue);
+
+    if (!result.ok) {
+        alert("Błędny login lub hasło");
+        return;
+    }
+
+    if (result.role === "admin") {
+        window.location.href = "admin.html";
+    } else {
+        window.location.href = "user.html";
+    }
+});
+</script>
+
 </body>
 </html>
