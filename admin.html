@@ -32,8 +32,10 @@
 
 </main>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+<!-- SKRYPT MUSI BYĆ NA SAMYM KOŃCU I Z DEFER -->
+<script defer>
+document.addEventListener("DOMContentLoaded", async () => {
+
     const isAdmin = localStorage.getItem("adminLogged");
 
     if (!isAdmin) {
@@ -41,7 +43,34 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    initAdminTickets();
+    // Ładujemy zgłoszenia admina
+    const list = document.getElementById("adminTicketsList");
+    list.innerHTML = "<p>Ładowanie zgłoszeń...</p>";
+
+    const { data, error } = await supabase
+        .from("tickets")
+        .select("*, users(login)")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        list.innerHTML = "<p>Błąd ładowania zgłoszeń.</p>";
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.innerHTML = "<p>Brak zgłoszeń.</p>";
+        return;
+    }
+
+    list.innerHTML = data.map(t => `
+        <div class="ticket-item">
+            <h4>${t.title}</h4>
+            <p>${t.description}</p>
+            <p><b>Użytkownik:</b> ${t.users?.login || "Nieznany"}</p>
+            <span class="status">${t.status}</span>
+        </div>
+    `).join("");
 });
 </script>
 
