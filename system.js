@@ -4,7 +4,6 @@
 
 const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";
 const SUPABASE_KEY = "YOUR_PUBLIC_ANON_KEY";
-
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
@@ -12,17 +11,18 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
    LOGOWANIE
 ============================================================ */
 
-async function login(email, password) {
+async function login(login, password) {
     // ADMIN
     const { data: admin } = await supabase
         .from("admins")
         .select("*")
-        .eq("login", email)
+        .eq("login", login)
         .eq("password", password)
         .single();
 
     if (admin) {
         localStorage.setItem("adminLogged", "true");
+        localStorage.setItem("adminLogin", admin.login);
         return { ok: true, role: "admin", user: admin };
     }
 
@@ -30,7 +30,7 @@ async function login(email, password) {
     const { data: user } = await supabase
         .from("users")
         .select("*")
-        .eq("login", email)
+        .eq("login", login)
         .eq("password", password)
         .single();
 
@@ -109,12 +109,11 @@ function initResidentTickets(user) {
 
         await supabase.from("tickets").insert({
             user_id: user.login,
-            wspolnota: user.wspolnota,
             title: ticketTitle.value.trim(),
-            desc: ticketDesc.value.trim(),
+            description: ticketDesc.value.trim(),
             category: ticketCategory.value,
             priority: ticketPriority.value,
-            attachments: JSON.stringify(attachments),
+            attachment: JSON.stringify(attachments),
             status: "Nowe",
             created_at: new Date().toISOString()
         });
@@ -145,10 +144,10 @@ async function renderResidentTicketsList(user) {
                 <strong>${t.title}</strong> (${t.category}, priorytet: ${t.priority})<br>
                 <small>${date}</small><br>
                 Status: <strong>${t.status}</strong><br>
-                <div>${t.desc}</div>
+                <div>${t.description}</div>
                 <div>Załączniki: ${
-                    t.attachments
-                        ? "<ul>" + JSON.parse(t.attachments).map(a => `<li>${a.name}</li>`).join("") + "</ul>"
+                    t.attachment
+                        ? "<ul>" + JSON.parse(t.attachment).map(a => `<li>${a.name}</li>`).join("") + "</ul>"
                         : "<em>Brak</em>"
                 }</div>
                 <hr>
@@ -182,10 +181,10 @@ async function initAdminTickets() {
                 <small>${date}</small><br>
                 Użytkownik: <strong>${t.user_id}</strong><br>
                 Status: <strong>${t.status}</strong><br>
-                <div>${t.desc}</div>
+                <div>${t.description}</div>
                 <div>Załączniki: ${
-                    t.attachments
-                        ? "<ul>" + JSON.parse(t.attachments).map(a => `<li>${a.name}</li>`).join("") + "</ul>"
+                    t.attachment
+                        ? "<ul>" + JSON.parse(t.attachment).map(a => `<li>${a.name}</li>`).join("") + "</ul>"
                         : "<em>Brak</em>"
                 }</div>
                 <hr>
