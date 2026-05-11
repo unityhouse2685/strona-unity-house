@@ -5,10 +5,7 @@
     <title>Rejestracja – Unity House</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Twój system -->
     <script src="system.js" defer></script>
 
     <link rel="stylesheet" href="style.css">
@@ -19,22 +16,22 @@
 <div class="login-container">
     <h2 class="login-title">Rejestracja mieszkańca</h2>
 
-    <form id="registerForm">
+    <form id="registerForm" autocomplete="off">
 
         <label for="loginInput">Login</label>
-        <input type="text" id="loginInput" required>
+        <input type="text" id="loginInput" autocomplete="off" required>
 
         <label for="nameInput">Imię i nazwisko</label>
-        <input type="text" id="nameInput" required>
+        <input type="text" id="nameInput" autocomplete="off" required>
 
         <label for="addressInput">Adres zamieszkania</label>
-        <input type="text" id="addressInput" required>
+        <input type="text" id="addressInput" autocomplete="off" required>
 
         <label for="phoneInput">Telefon</label>
-        <input type="text" id="phoneInput" required>
+        <input type="text" id="phoneInput" autocomplete="off" required>
 
         <label for="passwordInput">Hasło</label>
-        <input type="password" id="passwordInput" required>
+        <input type="password" id="passwordInput" autocomplete="new-password" required>
 
         <button type="submit" class="btn gold big" style="width:100%;">Utwórz konto</button>
     </form>
@@ -65,7 +62,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
         return;
     }
 
-    const { data, error } = await client
+    const { error } = await client
         .from("users")
         .insert({
             login,
