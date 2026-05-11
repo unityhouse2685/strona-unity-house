@@ -8,7 +8,7 @@
     <!-- Supabase (musi być pierwsze!) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Twój system -->
+    <!-- Twój system (zawiera funkcję login) -->
     <script src="system.js" defer></script>
 
     <link rel="stylesheet" href="style.css">
@@ -20,14 +20,18 @@
     <h2 class="login-title">Panel logowania</h2>
 
     <form id="loginForm">
-        <label>Login</label>
+        <label for="loginInput">Login</label>
         <input type="text" id="loginInput" required>
 
-        <label>Hasło</label>
+        <label for="passwordInput">Hasło</label>
         <input type="password" id="passwordInput" required>
 
-        <button class="btn gold big" style="width:100%;">Zaloguj się</button>
+        <button type="submit" class="btn gold big" style="width:100%;">Zaloguj się</button>
     </form>
+
+    <div class="login-links">
+        <a href="register.html" class="register-link">Nie masz konta? Zarejestruj się</a>
+    </div>
 
     <p class="login-footer">
         © <span id="year"></span> Unity House Gostyń
@@ -40,13 +44,21 @@ document.getElementById("year").textContent = new Date().getFullYear();
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const loginInput = document.getElementById("loginInput");
+    const passwordInput = document.getElementById("passwordInput");
+
     const loginValue = loginInput.value.trim();
     const passwordValue = passwordInput.value.trim();
+
+    if (!loginValue || !passwordValue) {
+        alert("Podaj login i hasło.");
+        return;
+    }
 
     const result = await login(loginValue, passwordValue);
 
     if (!result.ok) {
-        alert("Błędny login lub hasło");
+        alert(result.error || "Błędny login lub hasło");
         return;
     }
 
