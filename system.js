@@ -5,7 +5,7 @@
 const SUPABASE_URL = "https://ycuogutnwdybdeobowla.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdW9ndXRud2R5YmRlb2Jvd2xhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTE4NDAsImV4cCI6MjA5NDA2Nzg0MH0.ObkFIknc3Ce5KEmj435lI_8hi1T7E-lnxQuRSicZlPw";
 
-window.client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 console.log("system.js loaded");
 
 /* ============================================================
@@ -15,7 +15,7 @@ console.log("system.js loaded");
 async function login(login, password) {
     try {
         // ADMIN
-        const { data: admin, error: adminError } = await supabase
+        const { data: admin, error: adminError } = await client
             .from("admins")
             .select("*")
             .eq("login", login)
@@ -34,7 +34,7 @@ async function login(login, password) {
         }
 
         // MIESZKANIEC
-        const { data: user, error: userError } = await supabase
+        const { data: user, error: userError } = await client
             .from("users")
             .select("*")
             .eq("login", login)
@@ -93,7 +93,7 @@ async function initResidentTickets(user) {
 
         if (!title || !desc) return alert("Uzupełnij wszystkie pola.");
 
-        const { error } = await supabase.from("tickets").insert({
+        const { error } = await client.from("tickets").insert({
             title,
             description: desc,
             user_id: user.id,
@@ -117,7 +117,7 @@ async function loadResidentTickets(user) {
     const list = document.getElementById("ticketList");
     if (!list) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await client
         .from("tickets")
         .select("*")
         .eq("user_id", user.id)
@@ -148,10 +148,10 @@ async function loadResidentTickets(user) {
 ============================================================ */
 
 async function loadAdminTickets() {
-    const list = document.getElementById("adminTickets");
+    const list = document.getElementById("adminTicketsList");
     if (!list) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await client
         .from("tickets")
         .select("*, users(login)")
         .order("created_at", { ascending: false });
@@ -159,6 +159,11 @@ async function loadAdminTickets() {
     if (error) {
         console.error(error);
         list.innerHTML = "<p>Błąd ładowania zgłoszeń.</p>";
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.innerHTML = "<p>Brak zgłoszeń.</p>";
         return;
     }
 
