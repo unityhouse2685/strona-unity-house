@@ -29,8 +29,10 @@
 
 </main>
 
-<script>
+<!-- TEN SKRYPT MUSI BYĆ NA SAMYM KOŃCU -->
+<script defer>
 document.addEventListener("DOMContentLoaded", async () => {
+
     const login = localStorage.getItem("userLogin");
 
     if (!login) {
@@ -39,13 +41,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Pobieramy dane mieszkańca z Supabase
-    const { data: user } = await supabase
+    const { data: user, error } = await supabase
         .from("users")
         .select("*")
         .eq("login", login)
         .single();
 
-    if (!user) {
+    if (error || !user) {
         alert("Błąd: użytkownik nie istnieje.");
         logout();
         return;
